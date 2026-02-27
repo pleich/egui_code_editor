@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -1177,6 +1179,7 @@ impl Syntax {
                 "ZMM10", "ZMM11", "ZMM12", "ZMM13", "ZMM14", "ZMM15",
                 // ZMM
             ]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }

@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -133,6 +135,7 @@ impl Syntax {
                 "DATABASE",
             ]),
             special: BTreeSet::from(["PUBLIC"]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }

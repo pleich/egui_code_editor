@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -36,6 +38,7 @@ impl Syntax {
                 "alias", "bg", "cd", "command", "false", "fc", "fg", "getopts", "jobs", "kill",
                 "newgrp", "pwd", "read", "true", "umask", "unalias", "wait",
             ]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }

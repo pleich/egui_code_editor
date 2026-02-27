@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -32,6 +34,7 @@ impl Syntax {
                 "frozenset",
             ]),
             special: BTreeSet::from(["False", "None", "True"]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }

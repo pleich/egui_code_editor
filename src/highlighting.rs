@@ -1,7 +1,7 @@
 #[cfg(feature = "editor")]
 use super::Editor;
 
-use super::syntax::{Syntax, TokenType, QUOTES, SEPARATORS};
+use super::syntax::{SEPARATORS, Syntax, TokenType};
 use std::mem;
 
 #[derive(Default, Debug, PartialEq, PartialOrd, Eq, Ord)]
@@ -39,6 +39,7 @@ impl Token {
             c if syntax.is_special(c.to_string().as_str()) => TokenType::Special,
             c if syntax.comment == c.to_string().as_str() => TokenType::Comment(false),
             c if syntax.comment_multiline[0] == c.to_string().as_str() => TokenType::Comment(true),
+            c if syntax.is_quote_symbol(&c) => TokenType::Str(c),
             _ => TokenType::from(c),
         };
         token
@@ -136,7 +137,7 @@ impl Token {
                 c if !c.is_alphanumeric() && !SEPARATORS.contains(&c) => {
                     tokens.extend(self.drain(self.ty));
                     self.buffer.push(c);
-                    self.ty = if QUOTES.contains(&c) {
+                    self.ty = if syntax.is_quote_symbol(&c) {
                         Ty::Str(c)
                     } else {
                         Ty::Punctuation(c)

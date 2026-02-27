@@ -10,7 +10,7 @@ use std::collections::BTreeSet;
 use std::hash::{Hash, Hasher};
 
 pub const SEPARATORS: [char; 1] = ['_'];
-pub const QUOTES: [char; 3] = ['\'', '"', '`'];
+pub const DEFAULT_QUOTES: [char; 3] = ['\'', '"', '`'];
 
 type MultiLine = bool;
 type Float = bool;
@@ -83,7 +83,6 @@ impl From<char> for TokenType {
     fn from(c: char) -> Self {
         match c {
             c if c.is_whitespace() => TokenType::Whitespace(c),
-            c if QUOTES.contains(&c) => TokenType::Str(c),
             c if c.is_numeric() => TokenType::Numeric(false),
             c if c.is_alphabetic() || SEPARATORS.contains(&c) => TokenType::Literal,
             c if c.is_ascii_punctuation() => TokenType::Punctuation(c),
@@ -103,6 +102,7 @@ pub struct Syntax {
     pub keywords: BTreeSet<&'static str>,
     pub types: BTreeSet<&'static str>,
     pub special: BTreeSet<&'static str>,
+    pub quote_symbols: &'static [char],
 }
 impl Default for Syntax {
     fn default() -> Self {
@@ -160,6 +160,12 @@ impl Syntax {
             ..self
         }
     }
+    pub fn with_quote_symbols<T: Into<&'static [char]>>(self, quote_symbols: T) -> Self {
+        Syntax {
+            quote_symbols: quote_symbols.into(),
+            ..self
+        }
+    }
 
     pub fn language(&self) -> &str {
         self.language
@@ -191,6 +197,9 @@ impl Syntax {
             self.special.contains(word.to_ascii_uppercase().as_str())
         }
     }
+    pub fn is_quote_symbol(&self, c: &char) -> bool {
+        self.quote_symbols.contains(c)
+    }
 }
 
 impl Syntax {
@@ -204,6 +213,7 @@ impl Syntax {
             keywords: BTreeSet::new(),
             types: BTreeSet::new(),
             special: BTreeSet::new(),
+            quote_symbols: &[],
         }
     }
 }

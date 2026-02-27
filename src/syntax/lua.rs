@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -17,6 +19,7 @@ impl Syntax {
                 "boolean", "number", "string", "function", "userdata", "thread", "table",
             ]),
             special: BTreeSet::from(["false", "nil", "true"]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }

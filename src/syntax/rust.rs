@@ -1,3 +1,5 @@
+use crate::syntax::DEFAULT_QUOTES;
+
 use super::Syntax;
 use std::collections::BTreeSet;
 
@@ -83,6 +85,7 @@ impl Syntax {
                 "Weak",
             ]),
             special: BTreeSet::from(["Self", "static", "true", "false"]),
+            quote_symbols: &DEFAULT_QUOTES,
         }
     }
 }
